@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-const PlaylistBar = ({ playlist }) => {
+const PlaylistBar = ({ playlist, handlePlaylistSearch }) => {
 
   const [selectedPlaylist, setSelectedPlaylist] = useState('');
 
-  const setFirstPlaylist = () => {
 
+
+  const setFirstPlaylist = () => {
+    for (var key in playlist[0]) {
+      return setSelectedPlaylist(playlist[0]['id'])
+    }
   }
+
+  useEffect(() => {
+    setFirstPlaylist()
+  }, [playlist])
+
+  // const handleChange = (e) => {
+  //   console.log('this is e', e)
+  //   setSelectedPlaylist(e.target.value)
+  // }
+
+  console.log(playlist)
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.log(event)
+    handlePlaylistSearch(selectedPlaylist)
+    // console.log(selectedPlaylist)
   }
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -26,7 +49,8 @@ const PlaylistBar = ({ playlist }) => {
           {playlist.map((p, i) => {
           return (
             <option
-            key={i}
+            key={p.id}
+            value={p.id}
             >{p.description}</option>
           )
         })}

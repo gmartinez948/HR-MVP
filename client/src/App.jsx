@@ -4,6 +4,7 @@ import Genrebar from './components/GenreBar.jsx';
 import PlaylistBar from './components/PlaylistBar.jsx';
 import axios from 'axios';
 import { client_id, client_secret } from '../../config.js';
+import TracksList from './components/TracksList.jsx';
 
 
 const App = () => {
@@ -13,9 +14,9 @@ const App = () => {
   const [playlist, setPlaylist] = useState([]);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [genres, setGenres] = useState([]);
+  const [playlistId, setPlaylistId] = useState('');
+  const [tracks, setTracks] = useState([]);
   // add boolean state for favsongsclicked
-  // console.log(spotifyToken)
-  // console.log('new playlist', playlist);
 
   const getGenres = async() => {
     try {
@@ -56,14 +57,38 @@ const App = () => {
     }
   }
 
+  const handlePlaylistSearch = async(playlist_id) => {
+   try {
+     const getTracks = await axios.get(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks?limit=10`, {
+      headers: { Authorization: 'Bearer ' + spotifyToken }
+     })
+     const setTracksState = await Promise.all(getTracks.data.items.map(t => {
+       return t.track;
+     }))
+     await setTracks(setTracksState)
+   } catch(err) {
+     console.log(err);
+   }
+  }
+
   return (
     <div>
-    {genres &&
+    {genres.length > 0 &&
     <>
       <h1>Moodify</h1>
       <button>Go To Favorites</button>
-      <Genrebar genres={genres} handleGenreSearch={handleGenreSearch}/>
-      <PlaylistBar playlist={playlist}/>
+      <Genrebar genres={genres}
+      handleGenreSearch={handleGenreSearch}/>
+      <PlaylistBar playlist={playlist}
+      handlePlaylistSearch={handlePlaylistSearch}
+      setPlaylistId={setPlaylistId}
+      />
+    </>
+    }
+    {tracks.length > 0 &&
+    <>
+    <h3>Tracks</h3>
+    <TracksList tracks={tracks}/>
     </>
     }
     </div>

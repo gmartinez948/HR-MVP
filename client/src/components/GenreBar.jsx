@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-const Genrebar = ({ genres, handleGenreSearch }) => {
+const Genrebar = ({ genres, handleGenreSearch, setPlaylistId }) => {
 
   const [selectedGenre, setSelectedGenre] = useState('');
 
