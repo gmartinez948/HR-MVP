@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import Moodbar from './components/Moodbar.jsx'
+import Genrebar from './components/GenreBar.jsx';
+import PlaylistBar from './components/PlaylistBar.jsx';
 import axios from 'axios';
 import { client_id, client_secret } from '../../config.js';
 
 
 const App = () => {
-  const [mood, setMood] = useState('');
+
+  const [newGenre, setNewGenre] = useState('');
   const [favSongs, setFavSongs] = useState([]);
-  const [moodPlaylist, setMoodPlaylist] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
   const [spotifyToken, setSpotifyToken] = useState('');
   const [genres, setGenres] = useState([]);
   // add boolean state for favsongsclicked
   // console.log(spotifyToken)
-
-
-  const handleMoodChange = (mood) => {
-    console.log('app mood', mood)
-  }
+  // console.log('new playlist', playlist);
 
   const getGenres = async() => {
     try {
@@ -41,23 +39,33 @@ const App = () => {
     }
   }
 
-
-
   useEffect(() => {
     getGenres();
   }, [])
 
-
-
+  const handleGenreSearch = async(genre) => {
+    console.log('genre', genre);
+    try {
+      await setNewGenre(genre);
+      const getPlaylists = await axios.get(`https://api.spotify.com/v1/browse/categories/${genre}/playlists?limit=10`, {
+        headers: { Authorization: 'Bearer ' + spotifyToken}
+      })
+      await setPlaylist(getPlaylists.data.playlists.items);
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div>
     {genres &&
     <>
       <h1>Moodify</h1>
-      <Moodbar mood={mood} genres={genres}/>
+      <button>Go To Favorites</button>
+      <Genrebar genres={genres} handleGenreSearch={handleGenreSearch}/>
+      <PlaylistBar playlist={playlist}/>
     </>
-      }
+    }
     </div>
   )
 
