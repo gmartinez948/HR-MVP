@@ -1,11 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 const TracksList = ({ tracks }) => {
 
-  const addToFavorites = (track, artists, album, preview) => {
-    console.log(track, artists, album);
-    //
+  const addToFavorites = async(track, artists, album, preview) => {
+    try {
+      const song = {
+        song: track,
+        artists: artists,
+        album: album,
+        preview: preview
+      }
+      console.log(song);
+      const postSong = await axios.post('/songs', song)
+      return postSong
+    }catch(err) {
+      console.log(err)
+    }
+
   }
 
   console.log('tracklist', tracks)
@@ -26,7 +39,7 @@ const TracksList = ({ tracks }) => {
           <audio controls>
             <source src={t.preview_url} type="audio/mpeg"/>
           </audio>
-          <button onClick={() => {addToFavorites(t.name, t.artists, t.album.name, t.preview.url)}}>Add to Favorites</button>
+          <button onClick={() => {addToFavorites(t.name, t.artists, t.album.name, t.preview_url)}}>Add to Favorites</button>
           </>
         )
       })}
