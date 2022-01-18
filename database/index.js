@@ -1,45 +1,27 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/moodify');
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/moodify");
 
-// autoIncrement = require('mongoose-auto-increment');
+const main = async () => {
+  await mongoose.connect("mongodb://localhost/moodify");
+};
 
-const main = async() => {
-  await mongoose.connect('mongodb://localhost/moodify');
-}
-
-main().catch(err => console.log(err));
-
-// autoIncrement.initialize(connection);
-
+main().catch((err) => console.log(err));
 
 const spotifySchema = mongoose.Schema({
   song: String,
   artist: Array,
   album: String,
-  preview: String
+  preview: String,
 });
 
-const Spotify = mongoose.model('Spotify', spotifySchema);
+const Spotify = mongoose.model("Spotify", spotifySchema);
 
-// console.log(spotifySchema);
-
-const save = async(obj) => {
+const save = async (obj) => {
   const songData = new Spotify(songData);
-  const insertSong = await Spotify.findOneAndUpdate(obj.song, obj, { upsert: true })
-  // .then((results) => {
-  //   console.log(results)
-  // })
+  const insertSong = await Spotify.findOneAndUpdate(obj.song, obj, {
+    upsert: true,
+  });
   await console.log(insertSong);
-}
+};
 
 module.exports.save = save;
-
-
-
-// const { MongoCLient } = require('mongodb');
-
-// const url = 'mongodb://localhost:3000';
-
-
-
-

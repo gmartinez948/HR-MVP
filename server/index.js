@@ -11,11 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/../client/dist'));
 
-app.post('/songs', (req, res) => {
+app.get('/f', (req, res) => {
   console.log('i have been hit');
 })
-
-
 
 app.listen(PORT, () => {
   console.log(`Server listening at localhost:${PORT}!`);
