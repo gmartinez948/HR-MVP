@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import Dropdown from "./Dropdown.jsx";
+
+import { MenuItem } from "@mui/material";
 
 const PlaylistBar = ({ playlist, handlePlaylistSearch }) => {
   const [selectedPlaylist, setSelectedPlaylist] = useState("");
@@ -19,6 +22,7 @@ const PlaylistBar = ({ playlist, handlePlaylistSearch }) => {
     handlePlaylistSearch(selectedPlaylist);
     // console.log(selectedPlaylist)
   };
+  console.log('this is the playlist', playlist)
   return (
     <div>
       {playlist && (
@@ -36,6 +40,7 @@ const PlaylistBar = ({ playlist, handlePlaylistSearch }) => {
             </select>
             <button type="submit">Choose Playlist</button>
           </form>
+          {/* <Dropdown media={playlist}/> */}
         </>
       )}
     </div>

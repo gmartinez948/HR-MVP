@@ -20,6 +20,9 @@ const App = () => {
 
   // console.log('these are the fav songs', favSongs);
   console.log("these are the tracks", tracks);
+  console.log("these are the playlists", playlist);
+  console.log("these are the genres", genres);
+
 
   const getGenres = async () => {
     try {
