@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Dropdown from "./Dropdown.jsx";
-
-import { MenuItem } from "@mui/material";
+import { 
+  MenuItem, 
+  InputLabel, 
+  FormControl, 
+  Select,
+  Box
+} from '@mui/material/';
 
 const PlaylistBar = ({ playlist, handlePlaylistSearch }) => {
   const [selectedPlaylist, setSelectedPlaylist] = useState("");
@@ -20,28 +25,29 @@ const PlaylistBar = ({ playlist, handlePlaylistSearch }) => {
   const handleClick = (event) => {
     event.preventDefault();
     handlePlaylistSearch(selectedPlaylist);
-    // console.log(selectedPlaylist)
   };
   console.log('this is the playlist', playlist)
   return (
     <div>
       {playlist && (
-        <>
-          <h4>Choose a Playlist</h4>
-          <form onSubmit={handleClick}>
-            <select onChange={() => setSelectedPlaylist(event.target.value)}>
-              {playlist.map((p, i) => {
-                return (
-                  <option key={p.id} value={p.id}>
-                    {p.description}
-                  </option>
-                );
-              })}
-            </select>
-            <button type="submit">Choose Playlist</button>
-          </form>
-          {/* <Dropdown media={playlist}/> */}
-        </>
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl style={{minWidth: 300}}>
+            <InputLabel id="playlist-input">Choose</InputLabel>
+            <Select
+              labelId="playlist-dropdown"
+              id="dropdown"
+              value=""
+              label="Choose"
+              onChange={handleClick(event)}
+            >
+                {playlist.map((p, i) => {
+                    return (
+                    <MenuItem value={p.id}>{p.description}</MenuItem>
+                    )
+                })};
+            </Select>
+            </FormControl>
+        </Box>
       )}
     </div>
   );

@@ -8,8 +8,9 @@ import {
     Select,
     Box
 } from '@mui/material/';
+import { PlayCircleFilledWhiteSharp, PlaylistAdd } from "@mui/icons-material";
 
-const Dropdown = ({media, handleGenreSearch}) => {
+const Dropdown = ({ media, handleGenreSearch }) => {
 
     const [selectedGenre, setSelectedGenre] = useState('');
 
@@ -19,13 +20,9 @@ const Dropdown = ({media, handleGenreSearch}) => {
           return setSelectedGenre(media[0]['id'])
         }
       }
-
     useEffect(() => {
     setFirstGenre()
     }, [media])
-
-    console.log("this is the media", media)
-    console.log(selectedGenre)
 
     const handleChange = async(media) => {
         setSelectedGenre(event.target.value);
@@ -35,10 +32,10 @@ const Dropdown = ({media, handleGenreSearch}) => {
   return (
       <>
     <Box sx={{ minWidth: 120 }}>
-        <FormControl MidWidth>
-        <InputLabel id="playlist-or-genre-input">Choose</InputLabel>
+        <FormControl style={{minWidth: 300}}>
+        <InputLabel id="genre-input">Choose</InputLabel>
         <Select
-          labelId="playlist-or-genre-dropdown"
+          labelId="genre-dropdown"
           id="dropdown"
           value=""
           label="Choose"

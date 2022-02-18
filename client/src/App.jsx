@@ -6,7 +6,7 @@ import axios from "axios";
 import { client_id, client_secret } from "../../config.js";
 import TracksList from "./components/TracksList.jsx";
 import FavoritesList from "./components/FavoritesList.jsx";
-import AppBar from "@mui/material/AppBar";
+import AppBar from "./components/AppBar.jsx"
 
 const App = () => {
   const [newGenre, setNewGenre] = useState("");
@@ -64,6 +64,7 @@ const App = () => {
         }
       );
       await setPlaylist(getPlaylists.data.playlists.items);
+      await console.log(playlist);
     } catch (err) {
       console.log(err);
     }
@@ -103,16 +104,9 @@ const App = () => {
 
   return (
     <div>
+      <AppBar handleGoToFavsClicked={handleGoToFavsClicked}/>
       {genres.length > 0 && !isFavClicked && (
         <>
-          <h1>Moodify</h1>
-          <button
-            onClick={() => {
-              handleGoToFavsClicked();
-            }}
-          >
-            Go To Favorites
-          </button>
           <Genrebar genres={genres} handleGenreSearch={handleGenreSearch} />
           <PlaylistBar
             playlist={playlist}
